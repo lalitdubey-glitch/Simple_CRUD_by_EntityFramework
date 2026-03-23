@@ -1,0 +1,132 @@
+﻿@model EntityPractice1.Models.StudentModel
+
+@{
+    ViewBag.Title = "Student";
+}
+
+@{
+    if (ViewBag.ex != null)
+    {
+        @ViewBag.ex;
+    }
+}
+<span class="text-danger">
+    @Html.ValidationSummary()
+</span>
+
+
+<h2>Student</h2>
+
+<div>
+    @using (Html.BeginForm("Student", "home", FormMethod.Post))
+    {
+        if (Model != null)
+        {
+            @Html.TextBoxFor(obj => obj.Id, new { @class = "form-control", @readonly = "readonly", hidden="true"})
+        }
+
+        @Html.Label("Name")
+        @Html.TextBoxFor(obj => obj.Name, new { @class = "form-control", PlaceHolder = "Enter Your Name" })
+        <div class="text-danger my-2">
+            @Html.ValidationMessageFor(obj => obj.Name)
+        </div>
+
+        @Html.Label("Email")
+        @Html.TextBoxFor(obj => obj.Email, new { @class = "form-control", Type = "email", PlaceHolder = "Enter Your Email" })
+        <div class="text-danger my-2">
+            @Html.ValidationMessageFor(obj => obj.Email)
+        </div>
+
+        @Html.Label("Password")
+        @Html.TextBoxFor(obj => obj.Pass, new { @class = "form-control", Type = "password", PlaceHolder = "Enter Your Password" })
+        <div class="text-danger my-2">
+            @Html.ValidationMessageFor(obj => obj.Pass)
+        </div>
+
+        @Html.Label("Date Of Birth")
+        @Html.TextBoxFor(obj => obj.dob, "{0:yyyy-MM-dd}", new { @class = "form-control", Type = "date" })
+        <div class="text-danger">
+            @Html.ValidationMessageFor(obj => obj.dob)
+        </div>
+
+        @Html.Label("Gender")
+        <div>
+            @Html.RadioButtonFor(obj => obj.Gender, "male", new { @class = "form-check-input" }) Male
+            @Html.RadioButtonFor(obj => obj.Gender, "female", new { @class = "form-check-input" }) Female
+            @Html.RadioButtonFor(obj => obj.Gender, "other", new { @class = "form-check-input" }) Other
+        </div>
+        <div class="text-danger">
+            @Html.ValidationMessageFor(obj => obj.Gender)
+        </div>
+
+
+        <div>
+            @{
+                List<SelectListItem> Profession = new List<SelectListItem>()
+                {
+                    new SelectListItem(){Text="Select Profession", Selected=true, Disabled=true},
+                    new SelectListItem(){Text="Developer"},
+                    new SelectListItem(){Text="Designer"},
+                    new SelectListItem(){Text="App Developer"}
+                };
+            }
+        </div>
+        @Html.Label("Choose Your Profession")
+        @Html.DropDownListFor(obj => obj.profession, Profession, new { @class = "form-select" });
+        <div class="text-danger">
+            @Html.ValidationMessageFor(obj => obj.profession)
+        </div>
+
+        <input type="submit" value="@(Model!=null?"Edit":"Save")" class="btn btn-success my-3"/>
+  
+
+    }
+</div>
+
+@if (Model == null)
+{
+    <div>
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Gender</th>
+                    <th>DOB</th>
+                    <th>Profession</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (ViewBag.data != null)
+                    {
+                        foreach (EntityPractice1.Models.StudentModel stu in ViewBag.data)
+                        {
+                            <tr>
+                                <td>@stu.Id</td>
+                                <td>@stu.Name</td>
+                                <td>@stu.Email</td>
+                                <td>@stu.Pass</td>
+                                <td>@stu.Gender</td>
+                                <td>@stu.dob</td>
+                                <td>@stu.profession</td>
+                                <td>
+                                    <a href="/home/Student?sr=@stu.Id">
+                                        <input type="button" value="Edit" class="btn btn-success" />
+                                    </a>
+                                    <a href="/home/Student/@stu.Id">
+                                        <input type="button" value="Delete" class="btn btn-danger" />
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+}
