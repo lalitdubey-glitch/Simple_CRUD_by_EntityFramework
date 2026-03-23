@@ -62,5 +62,5 @@
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
 
-Scripts/** linguist-vendored=true
-Content/** linguist-vendored=true
+EntityPractice1/Scripts/** linguist-vendored=true
+EntityPractice1/Content/** linguist-vendored=true
